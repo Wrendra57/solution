@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+
+      .dropdown li {
+        list-style: none;
+        display: block;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .dropdown li:hover {
+        background-color: #f1f1f1;
+      }
+
+      .submenu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        display: none;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .dropdown:hover .submenu {
+        display: block;
+        animation: slideDown 0.3s ease-in-out;
+      }
+
+      @keyframes slideDown {
+        from {
+          transform: translateY(-10px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <ul class="dropdown">
+      <li>Item 1</li>
+      <li>
+        Item 2
+        <ul class="submenu">
+          <li>Subitem 1</li>
+          <li>Subitem 2</li>
+        </ul>
+      </li>
+      <li>Item 3</li>
+    </ul>
+  </body>
+</html>
