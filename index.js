@@ -1,95 +1,63 @@
-function processData(input) {
-  //Enter your code here
-  input = input.split("\n")[1].split(" ").map(Number);
+"use strict";
 
-  frequency = [];
-  input = input.sort((a, b) => {
-    if (a === b) frequency.push(a);
-    return a - b;
-  });
+const fs = require("fs");
 
-  let mean = input.reduce((a, b) => a + b) / input.length;
+process.stdin.resume();
+process.stdin.setEncoding("utf-8");
 
-  let median = 0;
-  if (input.length % 2 === 0) {
-    // even
-    median = (input[input.length / 2 - 1] + input[input.length / 2]) / 2;
-  } else {
-    // odd
-    median = input[(input.length - 1) / 2];
-  }
+let inputString = "";
+let currentLine = 0;
 
-  let mode = input[0];
-  if (frequency.length > 0) {
-    mode = frequency.sort((a, b) => {
-      let fa = frequency.filter((v) => v === a).length;
-      let fb = frequency.filter((v) => v === b).length;
+process.stdin.on("data", (inputStdin) => {
+  inputString += inputStdin;
+});
 
-      if (fa === fb && a < b) {
-        return fa - fb + 1;
-      }
+process.stdin.on("end", (_) => {
+  inputString = inputString
+    .replace(/\s*$/, "")
+    .split("\n")
+    .map((str) => str.replace(/\s*$/, ""));
 
-      return fa - fb;
-    });
-    mode = mode.pop();
-  }
+  main();
+});
 
-  console.log(
-    parseFloat(mean.toFixed(1)) +
-      "\n" +
-      parseFloat(median.toFixed(1)) +
-      "\n" +
-      mode
-  );
+function readLine() {
+  return inputString[currentLine++];
 }
 
-processData(`10
-64630 11735 14216 99233 14470 4978 73429 38120 51135 67060`);
-function processData(input) {
-  //Enter your code here
-  input = input.split("\n")[1].split(" ").map(Number);
+// Complete the bigSorting function below.
+function bigSorting(unsorted) {
+  return unsorted.sort((x, y) => {
+    if (x.length != y.length) return x.length - y.length;
 
-  frequency = [];
-  input = input.sort((a, b) => {
-    if (a === b) frequency.push(a);
-    return a - b;
+    // Now the length is the same.
+    // Compare the number from the first digit.
+    for (var i = 0; i < x.length; i++) {
+      var left = x[i];
+      var right = y[i];
+      if (left != right) return left - right;
+    }
+
+    // Default: "0" means both numbers are the same.
+    return 0;
   });
-
-  let mean = input.reduce((a, b) => a + b) / input.length;
-
-  let median = 0;
-  if (input.length % 2 === 0) {
-    // even
-    median = (input[input.length / 2 - 1] + input[input.length / 2]) / 2;
-  } else {
-    // odd
-    median = input[(input.length - 1) / 2];
-  }
-
-  let mode = input[0];
-  if (frequency.length > 0) {
-    mode = frequency.sort((a, b) => {
-      let fa = frequency.filter((v) => v === a).length;
-      let fb = frequency.filter((v) => v === b).length;
-
-      if (fa === fb && a < b) {
-        return fa - fb + 1;
-      }
-
-      return fa - fb;
-    });
-    mode = mode.pop();
-  }
-
-  console.log(
-    parseFloat(mean.toFixed(1)) +
-      "\n" +
-      parseFloat(median.toFixed(1)) +
-      "\n" +
-      mode
-  );
 }
 
-processData(`10
-64630 11735 14216 99233 14470 4978 73429 38120 51135 67060`);
+function main() {
+  const ws = fs.createWriteStream(process.env.OUTPUT_PATH);
 
+  const n = parseInt(readLine(), 10);
+
+  let unsorted = [];
+
+  for (let i = 0; i < n; i++) {
+    const unsortedItem = readLine();
+    unsorted.push(unsortedItem);
+  }
+
+  let result = bigSorting(unsorted);
+
+  ws.write(result.join("\n") + "\n");
+
+  ws.end();
+}
